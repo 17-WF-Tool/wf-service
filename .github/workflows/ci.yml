@@ -1,0 +1,136 @@
+name: DevSecOps CI
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '.vscode/**'
+
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '.vscode/**'
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  # -------------------------------------------------------------
+  # 1. 敏感憑證與密鑰掃描 (Secret Leak Detection)
+  # -------------------------------------------------------------
+  secret-scan:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks via Docker
+        run: |
+          docker run -v "${{ github.workspace }}:/path" zricethezav/gitleaks:latest detect --source="/path" --verbose --redact
+
+  # -------------------------------------------------------------
+  # 2. 第三方依賴漏洞檢測 (SCA / Dependency Audit)
+  # -------------------------------------------------------------
+  dependency-audit:
+    name: Dependency Audit (SCA)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install pip-audit
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip-audit
+
+      - name: Run Python Dependency Audit
+        run: |
+          pip-audit -r requirements.txt
+
+  # -------------------------------------------------------------
+  # 3. 程式碼風格與語法規範檢查 (Code Style & Linting)
+  # -------------------------------------------------------------
+  code-style:
+    name: Code Quality & Style Lint (Ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Linting Tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+
+      - name: Run Ruff Linter & Format Check
+        run: |
+          ruff check .
+          ruff format --check .
+
+  # -------------------------------------------------------------
+  # 4. 程式碼靜態安全分析 (SAST via CodeQL)
+  # -------------------------------------------------------------
+  codeql-sast:
+    name: Static Code Analysis (SAST)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: python
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  # -------------------------------------------------------------
+  # 5. 最小可執行編譯與載入驗證 (Build & Import Smoke Test)
+  # -------------------------------------------------------------
+  build-and-verify:
+    name: Build & Smoke Verification
+    runs-on: ubuntu-latest
+    needs: [code-style, dependency-audit]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Verify Application Loadable
+        run: |
+          python -c "import main; print('FastAPI Application loaded successfully!')"
