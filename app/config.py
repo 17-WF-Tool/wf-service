@@ -12,6 +12,10 @@ class Settings:
     WF_MARKET_API_URL: str = "https://api.warframe.market/v2"
     WF_MARKET_ASSETS_URL: str = "https://warframe.market/static/assets/"
 
+    # 物品目錄：定期檢查版本的間隔，以及查不到物品時觸發更新的冷卻時間（秒）
+    CATALOG_REFRESH_INTERVAL: float = 3600
+    CATALOG_MISS_REFRESH_COOLDOWN: float = 300
+
     # 預設查詢的使用者名稱（若前端呼叫沒帶參數時使用）
     DEFAULT_WF_USERNAME: str = ""
 
