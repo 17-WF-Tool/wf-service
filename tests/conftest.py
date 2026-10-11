@@ -4,14 +4,13 @@ from fastapi.testclient import TestClient
 import main
 from app.adapters.inbound.rest.router import (
     get_group_service,
-    get_item_service,
+    get_order_service,
     get_price_service,
 )
-from app.adapters.outbound.in_memory_repo import InMemoryItemRepository
 from app.adapters.outbound.json_group_repository import JsonGroupRepository
 from app.application.catalog_service import CatalogService
 from app.application.group_service import GroupService
-from app.application.item_service import ItemService
+from app.application.order_service import OrderService
 from app.application.price_service import PriceService
 from app.config import settings
 from main import app
@@ -33,15 +32,14 @@ async def loaded_catalog() -> CatalogService:
 
 @pytest.fixture
 def make_service(loaded_catalog):
-    """建立使用假 client 的 ItemService"""
+    """建立使用假 client 的 OrderService"""
 
     def _make(
         client: FakeMarketClient | None = None,
         default_username: str = "",
         catalog: CatalogService | None = None,
     ):
-        return ItemService(
-            repo=InMemoryItemRepository(),
+        return OrderService(
             market_client=client or FakeMarketClient(),
             catalog=catalog if catalog is not None else loaded_catalog,
             default_username=default_username,
@@ -66,19 +64,19 @@ def app_catalog(monkeypatch) -> CatalogService:
 @pytest.fixture
 def api_client(app_catalog):
     """建立 API 測試 client，以 use_service() 注入使用假 client 的 service"""
-    providers = (get_item_service, get_price_service, get_group_service)
+    providers = (get_order_service, get_price_service, get_group_service)
     originals = {p: app.dependency_overrides.get(p) for p in providers}
 
     with TestClient(app) as client:
 
         def use_service(
-            service: ItemService | None = None,
+            service: OrderService | None = None,
             *,
             price_service: PriceService | None = None,
             group_service: GroupService | None = None,
         ) -> TestClient:
             if service is not None:
-                app.dependency_overrides[get_item_service] = lambda: service
+                app.dependency_overrides[get_order_service] = lambda: service
             if price_service is not None:
                 app.dependency_overrides[get_price_service] = lambda: price_service
             if group_service is not None:
