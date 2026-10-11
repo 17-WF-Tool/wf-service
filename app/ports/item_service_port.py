@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Any
 
 from app.domain.item import Item
+from app.domain.order import OrderType
+from app.domain.order_listing import OrderListing
 
 
 class ItemServicePort(ABC):
@@ -18,7 +19,9 @@ class ItemServicePort(ABC):
         pass
 
     @abstractmethod
-    async def get_my_public_orders(
-        self, username: str | None = None
-    ) -> list[dict[str, Any]]:
-        pass
+    async def get_user_orders(
+        self,
+        username: str | None = None,
+        order_type: OrderType | None = None,
+    ) -> list[OrderListing]:
+        """取得使用者的公開掛單並附上物品資訊；未指定 order_type 時回傳全部"""

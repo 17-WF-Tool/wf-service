@@ -56,6 +56,7 @@ catalog_service = CatalogService(
 item_service = ItemService(
     repo=item_repo,
     market_client=market_client,
+    catalog=catalog_service,
     default_username=settings.DEFAULT_WF_USERNAME,
 )
 
