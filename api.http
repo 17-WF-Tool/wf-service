@@ -79,3 +79,15 @@ GET {{local}}/api/v1/market/items/primed_continuity/price?rank=10
 
 ### 查詢不存在的物品（預期 404）
 GET {{local}}/api/v1/market/items/no_such_item_x/price
+
+
+### 取得物品分組清單
+GET {{local}}/api/v1/market/groups
+
+
+### 取得分組內的物品
+GET {{local}}/api/v1/market/groups/steel_meridian/items
+
+
+### 查詢不存在的分組（預期 404）
+GET {{local}}/api/v1/market/groups/no_such_group/items

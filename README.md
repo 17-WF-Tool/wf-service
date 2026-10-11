@@ -68,3 +68,17 @@ python scripts/record_fixtures.py
 ```
 
 `api.http` 收錄官方 API 與本專案 API 的請求範例，可搭配 VS Code 的 REST Client 擴充套件使用。
+
+### 6. 物品分組資料
+
+官方沒有商人或集團的分組，分組資料由本專案維護於 `data/groups.json`：
+
+- `source: manual`：手動維護，例如會輪替商品的 Baro Ki'Teer，直接編輯 slug 清單
+- `source: wfcd`：六大集團與鋼鐵之路追隨者，由腳本依 WFCD 物品資料產生
+
+```powershell
+# 重新產生自動分組，手動分組會原樣保留
+python scripts/build_groups.py
+```
+
+後端啟動時會檢查分組中的 slug 是否都存在於官方物品目錄，不存在的會記錄警告。
