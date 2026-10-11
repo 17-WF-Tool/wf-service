@@ -1,12 +1,14 @@
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from app.adapters.inbound.rest.dto import (
     APIResponse,
     ToggleVisibilityRequest,
     UpdatePriceRequest,
+    UserOrderDTO,
 )
+from app.domain.order import OrderType
 from app.ports.item_service_port import ItemServicePort
 
 router = APIRouter(prefix="/api/v1/market", tags=["Market"])
@@ -19,6 +21,10 @@ def get_item_service() -> ItemServicePort:
 
 # 使用 Annotated 定義型別別名，徹底消除 B008 警告
 ItemServiceDep = Annotated[ItemServicePort, Depends(get_item_service)]
+OrderTypeQuery = Annotated[
+    OrderType | None,
+    Query(alias="type", description="掛單類型 buy / sell，不給則回傳全部"),
+]
 
 
 @router.get(
@@ -47,17 +53,40 @@ async def get_items(
 
 
 @router.get(
+    "/users/{username}/orders",
+    response_model=APIResponse[list[UserOrderDTO]],
+    summary="查詢指定使用者的公開掛單列表",
+)
+async def get_user_orders(
+    username: str,
+    service: ItemServiceDep,
+    order_type: OrderTypeQuery = None,
+):
+    return await _list_user_orders(service, username, order_type)
+
+
+@router.get(
     "/me/orders",
-    response_model=APIResponse[list[dict[str, Any]]],
+    response_model=APIResponse[list[UserOrderDTO]],
     summary="查詢個人拍賣場公開掛單列表",
+    description="未帶 username 時使用 config 的 DEFAULT_WF_USERNAME；"
+    "登入功能完成後將改為查詢登入者本人。",
 )
 async def get_my_orders(
     service: ItemServiceDep,
     username: str | None = None,
+    order_type: OrderTypeQuery = None,
 ):
+    return await _list_user_orders(service, username, order_type)
+
+
+async def _list_user_orders(
+    service: ItemServicePort,
+    username: str | None,
+    order_type: OrderType | None,
+) -> APIResponse[list[UserOrderDTO]]:
     try:
-        orders = await service.get_my_public_orders(username=username)
-        return APIResponse(code=200, message="success", data=orders)
+        listings = await service.get_user_orders(username, order_type)
     except KeyError as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -78,6 +107,8 @@ async def get_my_orders(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="系統內部未知錯誤",
         ) from e
+    data = [UserOrderDTO.from_domain(listing) for listing in listings]
+    return APIResponse(code=200, message="success", data=data)
 
 
 @router.patch(
