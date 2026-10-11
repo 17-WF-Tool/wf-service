@@ -1,3 +1,5 @@
+import logging
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,6 +10,11 @@ from app.adapters.outbound.in_memory_repo import InMemoryItemRepository
 from app.adapters.outbound.wf_market_client import WarframeMarketClient
 from app.application.item_service import ItemService
 from app.config import settings
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
 
 app = FastAPI(
     title="Warframe Market Controller API",

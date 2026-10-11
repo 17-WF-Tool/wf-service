@@ -43,7 +43,7 @@ class ItemService(ItemServicePort):
         if not target_user:
             raise ValueError("未指定使用者名稱，請於 config 設定或以參數傳入 username")
 
-        raw_orders = await self.market_client.fetch_user_public_orders(target_user)
+        raw_orders = await self.market_client.fetch_user_orders(target_user)
 
         formatted_orders = []
         for order in raw_orders:

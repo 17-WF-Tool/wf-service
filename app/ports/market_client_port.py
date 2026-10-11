@@ -3,10 +3,24 @@ from typing import Any
 
 
 class MarketClientPort(ABC):
-    @abstractmethod
-    async def fetch_lowest_price(self, name_en: str) -> int | None:
-        """向外部 Warframe.market 取得最低賣單價格"""
+    """Warframe.market v2 官方 API 的存取介面
+
+    實作只負責取得資料，回傳官方 `data` 欄位的原始內容，不做業務過濾。
+    錯誤約定：找不到資源丟 KeyError，其他通訊失敗丟 RuntimeError。
+    """
 
     @abstractmethod
-    async def fetch_user_public_orders(self, username: str) -> list[dict[str, Any]]:
-        """公開查詢特定使用者的掛單列表"""
+    async def fetch_versions(self) -> dict[str, Any]:
+        """取得各資料集版本資訊（含 collections.items）"""
+
+    @abstractmethod
+    async def fetch_items(self, language: str = "zh-hant") -> list[dict[str, Any]]:
+        """取得完整物品目錄，i18n 會包含 en 與指定語言"""
+
+    @abstractmethod
+    async def fetch_user_orders(self, username: str) -> list[dict[str, Any]]:
+        """公開查詢特定使用者的所有掛單（買單與賣單）"""
+
+    @abstractmethod
+    async def fetch_top_orders(self, slug: str) -> dict[str, list[dict[str, Any]]]:
+        """取得特定物品的最低賣單與最高買單，格式為 {"sell": [...], "buy": [...]}"""
