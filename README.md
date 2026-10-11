@@ -2,6 +2,8 @@
 
 基於 Python + FastAPI 開發的《Warframe》多功能後端核心平台。採用六角架構（Hexagonal Architecture）設計，主要用於對接《Warframe.Market》v2 官方介面，提供其他專案的前端需求。
 
+> 📖 架構、流程圖、API 說明與設計決策請見 [docs/](docs/README.md)。
+
 ## 核心特性
 
 * **六角架構解耦**：嚴格劃分領域層（Domain）、連接埠（Ports）、應用層（Application）與適配器（Adapters），業務邏輯完全獨立於 Web 框架。
@@ -16,8 +18,8 @@
   > 高效能、自動生成 OpenAPI (Swagger) 文件的非同步 Web 框架。
 * **ASGI 伺服器**：Uvicorn
 * **資料驗證**：Pydantic v2
-* **網路通訊**：curl-cffi & HTTPX
-* **測試與代碼品質**：Pytest & Ruff
+* **網路通訊**：curl-cffi（模擬瀏覽器 TLS 指紋）
+* **測試與代碼品質**：Pytest、pytest-asyncio、httpx2（TestClient）& Ruff
 * **開發語言**：Python 3.11+
 
 ## 快速開始
