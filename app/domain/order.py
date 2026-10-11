@@ -7,6 +7,7 @@ class OrderType(StrEnum):
     BUY = "buy"
     SELL = "sell"
 
+
 @dataclass
 class Order:
     """Warframe.market 的單筆掛單，欄位語意對應官方 v2 order"""
