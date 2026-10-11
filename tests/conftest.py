@@ -2,10 +2,11 @@ import pytest
 from fastapi.testclient import TestClient
 
 import main
-from app.adapters.inbound.rest.router import get_item_service
+from app.adapters.inbound.rest.router import get_item_service, get_price_service
 from app.adapters.outbound.in_memory_repo import InMemoryItemRepository
 from app.application.catalog_service import CatalogService
 from app.application.item_service import ItemService
+from app.application.price_service import PriceService
 from main import app
 from tests.support import FakeMarketClient
 
@@ -53,17 +54,26 @@ def app_catalog(monkeypatch) -> CatalogService:
 @pytest.fixture
 def api_client(app_catalog):
     """建立 API 測試 client，以 use_service() 注入使用假 client 的 service"""
-    original = app.dependency_overrides.get(get_item_service)
+    providers = (get_item_service, get_price_service)
+    originals = {p: app.dependency_overrides.get(p) for p in providers}
 
     with TestClient(app) as client:
 
-        def use_service(service: ItemService) -> TestClient:
-            app.dependency_overrides[get_item_service] = lambda: service
+        def use_service(
+            service: ItemService | None = None,
+            *,
+            price_service: PriceService | None = None,
+        ) -> TestClient:
+            if service is not None:
+                app.dependency_overrides[get_item_service] = lambda: service
+            if price_service is not None:
+                app.dependency_overrides[get_price_service] = lambda: price_service
             return client
 
         yield use_service
 
-    if original is None:
-        app.dependency_overrides.pop(get_item_service, None)
-    else:
-        app.dependency_overrides[get_item_service] = original
+    for provider, original in originals.items():
+        if original is None:
+            app.dependency_overrides.pop(provider, None)
+        else:
+            app.dependency_overrides[provider] = original

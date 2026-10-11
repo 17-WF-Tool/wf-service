@@ -5,12 +5,13 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.adapters.inbound.rest.router import get_item_service
+from app.adapters.inbound.rest.router import get_item_service, get_price_service
 from app.adapters.inbound.rest.router import router as market_router
 from app.adapters.outbound.in_memory_repo import InMemoryItemRepository
 from app.adapters.outbound.wf_market_client import WarframeMarketClient
 from app.application.catalog_service import CatalogService
 from app.application.item_service import ItemService
+from app.application.price_service import PriceService
 from app.config import settings
 
 logging.basicConfig(
@@ -47,7 +48,10 @@ app.add_middleware(
 
 # 組裝依賴關係 (Composition Root)
 item_repo = InMemoryItemRepository()
-market_client = WarframeMarketClient(base_url=settings.WF_MARKET_API_URL)
+market_client = WarframeMarketClient(
+    base_url=settings.WF_MARKET_API_URL,
+    min_request_interval=settings.WF_MARKET_MIN_REQUEST_INTERVAL,
+)
 catalog_service = CatalogService(
     market_client,
     refresh_interval=settings.CATALOG_REFRESH_INTERVAL,
@@ -59,9 +63,11 @@ item_service = ItemService(
     catalog=catalog_service,
     default_username=settings.DEFAULT_WF_USERNAME,
 )
+price_service = PriceService(market_client, cache_ttl=settings.PRICE_CACHE_TTL)
 
 # 注入到 FastAPI 路由
 app.dependency_overrides[get_item_service] = lambda: item_service
+app.dependency_overrides[get_price_service] = lambda: price_service
 
 # 掛載路由
 app.include_router(market_router)

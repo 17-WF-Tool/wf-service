@@ -1,9 +1,10 @@
 import logging
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 
 from curl_cffi.requests import AsyncSession, RequestsError
 
+from app.adapters.outbound.rate_limiter import RateLimiter
 from app.ports.market_client_port import MarketClientPort
 
 logger = logging.getLogger(__name__)
@@ -15,10 +16,13 @@ class WarframeMarketClient(MarketClientPort):
         base_url: str = "https://api.warframe.market/v2",
         platform: str = "pc",
         timeout: float = 15,
+        min_request_interval: float = 0.35,
     ):
         self.base_url = base_url.rstrip("/")
         self.platform = platform
         self.timeout = timeout
+        # 官方限制約每秒 3 個請求，所有請求共用同一個限制器
+        self._rate_limiter = RateLimiter(min_request_interval)
 
     async def fetch_versions(self) -> dict[str, Any]:
         return await self._get("/versions")
@@ -33,17 +37,29 @@ class WarframeMarketClient(MarketClientPort):
         except KeyError as e:
             raise KeyError(f"找不到 Warframe.market 使用者: {clean_username}") from e
 
-    async def fetch_top_orders(self, slug: str) -> dict[str, list[dict[str, Any]]]:
+    async def fetch_top_orders(
+        self, slug: str, rank: int | None = None
+    ) -> dict[str, list[dict[str, Any]]]:
         clean_slug = slug.strip()
+        params = {"rank": rank} if rank is not None else None
         try:
-            data = await self._get(f"/orders/item/{_encode(clean_slug)}/top")
+            data = await self._get(
+                f"/orders/item/{_encode(clean_slug)}/top", params=params
+            )
         except KeyError as e:
             raise KeyError(f"找不到 Warframe.market 物品: {clean_slug}") from e
         return {"sell": data.get("sell", []), "buy": data.get("buy", [])}
 
-    async def _get(self, path: str, language: str = "en") -> Any:
+    async def _get(
+        self,
+        path: str,
+        language: str = "en",
+        params: dict[str, Any] | None = None,
+    ) -> Any:
         """發送 GET 請求並取出官方回應外殼 {apiVersion, data, error} 中的 data"""
         url = f"{self.base_url}{path}"
+        if params:
+            url = f"{url}?{urlencode(params)}"
         headers = {
             "accept": "application/json",
             "language": language,
@@ -51,6 +67,7 @@ class WarframeMarketClient(MarketClientPort):
             "crossplay": "true",
         }
 
+        await self._rate_limiter.wait()
         try:
             # 模擬 Chrome TLS 指紋，避免遭 Cloudflare 阻擋
             async with AsyncSession(impersonate="chrome124") as session:

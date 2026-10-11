@@ -92,6 +92,8 @@ class FakeMarketClient(MarketClientPort):
         self._record("fetch_user_orders", username)
         return copy.deepcopy(self.user_orders)
 
-    async def fetch_top_orders(self, slug: str) -> dict[str, list[dict[str, Any]]]:
-        self._record("fetch_top_orders", slug)
+    async def fetch_top_orders(
+        self, slug: str, rank: int | None = None
+    ) -> dict[str, list[dict[str, Any]]]:
+        self._record("fetch_top_orders", slug, rank)
         return copy.deepcopy(self.top_orders)

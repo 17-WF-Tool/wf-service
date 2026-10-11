@@ -22,5 +22,11 @@ class MarketClientPort(ABC):
         """公開查詢特定使用者的所有掛單（買單與賣單）"""
 
     @abstractmethod
-    async def fetch_top_orders(self, slug: str) -> dict[str, list[dict[str, Any]]]:
-        """取得特定物品的最低賣單與最高買單，格式為 {"sell": [...], "buy": [...]}"""
+    async def fetch_top_orders(
+        self, slug: str, rank: int | None = None
+    ) -> dict[str, list[dict[str, Any]]]:
+        """取得特定物品線上使用者的最低賣單與最高買單
+
+        格式為 {"sell": [...], "buy": [...]}；rank 可篩選 Mod 等級，
+        不給時兩邊可能是不同等級的掛單。
+        """

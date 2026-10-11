@@ -1,8 +1,9 @@
+import logging
 from datetime import UTC, datetime
 
 import pytest
 
-from app.application.wfm_mapper import to_market_item, to_order
+from app.application.wfm_mapper import to_market_item, to_order, to_orders
 from app.config import settings
 from app.domain.order import OrderType
 from tests.support import load_data, merged_raw_items
@@ -131,3 +132,19 @@ class TestToOrder:
         raw = load_data("user_orders.json")[0] | {"type": "trade"}
         with pytest.raises(ValueError):
             to_order(raw)
+
+
+class TestToOrders:
+    def test_maps_all(self):
+        raws = load_data("user_orders.json")
+
+        assert len(to_orders(raws)) == len(raws)
+
+    def test_skips_malformed_and_logs(self, caplog):
+        raws = [*load_data("user_orders.json"), {"id": "broken"}]
+
+        with caplog.at_level(logging.WARNING):
+            orders = to_orders(raws)
+
+        assert len(orders) == len(raws) - 1
+        assert "broken" in caplog.text
