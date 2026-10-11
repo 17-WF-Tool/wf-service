@@ -1,0 +1,455 @@
+{
+  "apiVersion": "0.25.0",
+  "data": [
+    {
+      "id": "54c6855ee779891362942572",
+      "slug": "primed_continuity",
+      "gameRef": "/Lotus/Upgrades/Mods/Warframe/Expert/AvatarAbilityDurationModExpert",
+      "tags": [
+        "mod",
+        "legendary",
+        "warframe"
+      ],
+      "maxRank": 10,
+      "i18n": {
+        "en": {
+          "name": "Primed Continuity",
+          "icon": "items/images/en/primed_continuity.01e1ca7ecf998781fe999abb420035f0.webp",
+          "thumb": "items/images/en/thumbs/primed_continuity.01e1ca7ecf998781fe999abb420035f0.128x128.webp"
+        },
+        "zh-hans": {
+          "name": "持久力 Prime",
+          "icon": "items/images/en/primed_continuity.01e1ca7ecf998781fe999abb420035f0.webp",
+          "thumb": "items/images/en/thumbs/primed_continuity.01e1ca7ecf998781fe999abb420035f0.128x128.webp"
+        }
+      }
+    },
+    {
+      "id": "54a73e65e779893a797fff36",
+      "slug": "bronco_prime_barrel",
+      "gameRef": "/Lotus/Types/Recipes/Weapons/WeaponParts/BroncoPrimeBarrel",
+      "tags": [
+        "component",
+        "weapon",
+        "prime"
+      ],
+      "ducats": 45,
+      "i18n": {
+        "zh-hans": {
+          "name": "野马 Prime 枪管",
+          "icon": "items/images/en/bronco_prime_barrel.aa5499a3b26806f1f26a987be9dcf0ca.png",
+          "thumb": "items/images/en/thumbs/bronco_prime_barrel.aa5499a3b26806f1f26a987be9dcf0ca.128x128.png",
+          "subIcon": "sub_icons/weapon/prime_barrel_128x128.png"
+        },
+        "en": {
+          "name": "Bronco Prime Barrel",
+          "icon": "items/images/en/bronco_prime_barrel.aa5499a3b26806f1f26a987be9dcf0ca.png",
+          "thumb": "items/images/en/thumbs/bronco_prime_barrel.aa5499a3b26806f1f26a987be9dcf0ca.128x128.png",
+          "subIcon": "sub_icons/weapon/prime_barrel_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "56783f24cbfa8f0432dd89a9",
+      "slug": "paris_prime_set",
+      "gameRef": "/Lotus/Weapons/Tenno/Bows/PrimeHuntingBow",
+      "tags": [
+        "weapon",
+        "prime",
+        "set",
+        "primary"
+      ],
+      "ducats": 115,
+      "i18n": {
+        "zh-hans": {
+          "name": "帕里斯 Prime 一套",
+          "icon": "items/images/en/paris_prime_set.971f957f8304ce10617836343d47b238.png",
+          "thumb": "items/images/en/thumbs/paris_prime_set.971f957f8304ce10617836343d47b238.128x128.png"
+        },
+        "en": {
+          "name": "Paris Prime Set",
+          "icon": "items/images/en/paris_prime_set.971f957f8304ce10617836343d47b238.png",
+          "thumb": "items/images/en/thumbs/paris_prime_set.971f957f8304ce10617836343d47b238.128x128.png"
+        }
+      }
+    },
+    {
+      "id": "58b57068eb26db5c3119210a",
+      "slug": "banshee_prime_blueprint",
+      "gameRef": "/Lotus/Types/Recipes/WarframeRecipes/BansheePrimeBlueprint",
+      "tags": [
+        "warframe",
+        "blueprint",
+        "prime"
+      ],
+      "ducats": 45,
+      "i18n": {
+        "zh-hans": {
+          "name": "Banshee Prime 蓝图",
+          "icon": "items/images/en/banshee_prime_blueprint.a0956816beb733841bce57e69a568cd6.png",
+          "thumb": "items/images/en/thumbs/banshee_prime_blueprint.a0956816beb733841bce57e69a568cd6.128x128.png",
+          "subIcon": "sub_icons/blueprint_128x128.png"
+        },
+        "en": {
+          "name": "Banshee Prime Blueprint",
+          "icon": "items/images/en/banshee_prime_blueprint.a0956816beb733841bce57e69a568cd6.png",
+          "thumb": "items/images/en/thumbs/banshee_prime_blueprint.a0956816beb733841bce57e69a568cd6.128x128.png",
+          "subIcon": "sub_icons/blueprint_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "633e2e6cf570d10793afb824",
+      "slug": "phantasma_prime_receiver",
+      "gameRef": "/Lotus/Types/Recipes/Weapons/WeaponParts/PhantasmaPrimeReceiver",
+      "tags": [
+        "component",
+        "weapon",
+        "prime"
+      ],
+      "ducats": 15,
+      "i18n": {
+        "en": {
+          "name": "Phantasma Prime Receiver",
+          "icon": "items/images/en/phantasma_prime_receiver.a296718b56d5a40b6df80bbedeeb4b75.png",
+          "thumb": "items/images/en/thumbs/phantasma_prime_receiver.a296718b56d5a40b6df80bbedeeb4b75.128x128.png",
+          "subIcon": "sub_icons/weapon/prime_receiver_128x128.png"
+        },
+        "zh-hans": {
+          "name": "幻离子 Prime 枪机",
+          "icon": "items/images/en/phantasma_prime_receiver.a296718b56d5a40b6df80bbedeeb4b75.png",
+          "thumb": "items/images/en/thumbs/phantasma_prime_receiver.a296718b56d5a40b6df80bbedeeb4b75.128x128.png",
+          "subIcon": "sub_icons/weapon/prime_receiver_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "65315a50a06afa0dcbe93e6e",
+      "slug": "catalyzing_shields",
+      "gameRef": "/Lotus/Upgrades/Mods/Warframe/DualStat/FixedShieldAndShieldGatingDuration",
+      "tags": [
+        "mod",
+        "rare",
+        "warframe"
+      ],
+      "maxRank": 3,
+      "i18n": {
+        "zh-hans": {
+          "name": "催化护盾",
+          "icon": "items/images/en/catalyzing_shields.33257059fb0aad33f4ac29b9fd9bb7cd.png",
+          "thumb": "items/images/en/thumbs/catalyzing_shields.33257059fb0aad33f4ac29b9fd9bb7cd.128x128.png"
+        },
+        "en": {
+          "name": "Catalyzing Shields",
+          "icon": "items/images/en/catalyzing_shields.33257059fb0aad33f4ac29b9fd9bb7cd.png",
+          "thumb": "items/images/en/thumbs/catalyzing_shields.33257059fb0aad33f4ac29b9fd9bb7cd.128x128.png"
+        }
+      }
+    },
+    {
+      "id": "66325cb5e85cac3856c86cc2",
+      "slug": "protea_prime_chassis_blueprint",
+      "gameRef": "/Lotus/Types/Recipes/WarframeRecipes/ProteaPrimeChassisBlueprint",
+      "tags": [
+        "component",
+        "warframe",
+        "prime",
+        "blueprint"
+      ],
+      "ducats": 100,
+      "i18n": {
+        "en": {
+          "name": "Protea Prime Chassis Blueprint",
+          "icon": "items/images/en/protea_prime_chassis_blueprint.c4d0269d10f68228b05510982f06e58b.png",
+          "thumb": "items/images/en/thumbs/protea_prime_chassis_blueprint.c4d0269d10f68228b05510982f06e58b.128x128.png",
+          "subIcon": "sub_icons/warframe/prime_chassis_128x128.png"
+        },
+        "zh-hans": {
+          "name": "Protea Prime 机体 蓝图",
+          "icon": "items/images/en/protea_prime_chassis_blueprint.c4d0269d10f68228b05510982f06e58b.png",
+          "thumb": "items/images/en/thumbs/protea_prime_chassis_blueprint.c4d0269d10f68228b05510982f06e58b.128x128.png",
+          "subIcon": "sub_icons/warframe/prime_chassis_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "673516c7db3ac2cfade14a78",
+      "slug": "trumna_prime_barrel",
+      "gameRef": "/Lotus/Types/Recipes/Weapons/WeaponParts/TrumnaPrimeBarrel",
+      "tags": [
+        "component",
+        "weapon",
+        "prime"
+      ],
+      "ducats": 100,
+      "i18n": {
+        "zh-hans": {
+          "name": "灭杀者 Prime 枪管",
+          "icon": "items/images/en/trumna_prime_barrel.ccbe6544b4b41bb246fee4f68fe4d371.webp",
+          "thumb": "items/images/en/thumbs/trumna_prime_barrel.ccbe6544b4b41bb246fee4f68fe4d371.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_barrel_128x128.png"
+        },
+        "en": {
+          "name": "Trumna Prime Barrel",
+          "icon": "items/images/en/trumna_prime_barrel.ccbe6544b4b41bb246fee4f68fe4d371.webp",
+          "thumb": "items/images/en/thumbs/trumna_prime_barrel.ccbe6544b4b41bb246fee4f68fe4d371.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_barrel_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "673516e0db3ac2cfade14a7f",
+      "slug": "quassus_prime_blade",
+      "gameRef": "/Lotus/Types/Recipes/Weapons/WeaponParts/QuassusPrimeBlade",
+      "tags": [
+        "component",
+        "weapon",
+        "prime"
+      ],
+      "ducats": 100,
+      "i18n": {
+        "zh-hans": {
+          "name": "威震武扇 Prime 刀刃",
+          "icon": "items/images/en/quassus_prime_blade.e2d3b6fc89126a4d513be40752388c0e.webp",
+          "thumb": "items/images/en/thumbs/quassus_prime_blade.e2d3b6fc89126a4d513be40752388c0e.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_blade_128x128.png"
+        },
+        "en": {
+          "name": "Quassus Prime Blade",
+          "icon": "items/images/en/quassus_prime_blade.e2d3b6fc89126a4d513be40752388c0e.webp",
+          "thumb": "items/images/en/thumbs/quassus_prime_blade.e2d3b6fc89126a4d513be40752388c0e.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_blade_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "67acd8fd125398d92c8bb4e3",
+      "slug": "cedo_prime_stock",
+      "gameRef": "/Lotus/Types/Recipes/Weapons/WeaponParts/CedoPrimeStock",
+      "tags": [
+        "component",
+        "weapon",
+        "prime"
+      ],
+      "ducats": 15,
+      "i18n": {
+        "zh-hans": {
+          "name": "塞多 Prime 枪托",
+          "icon": "items/images/en/cedo_prime_stock.0c958533f82b78967afb8394ec7c9af9.webp",
+          "thumb": "items/images/en/thumbs/cedo_prime_stock.0c958533f82b78967afb8394ec7c9af9.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_stock_128x128.png"
+        },
+        "en": {
+          "name": "Cedo Prime Stock",
+          "icon": "items/images/en/cedo_prime_stock.0c958533f82b78967afb8394ec7c9af9.webp",
+          "thumb": "items/images/en/thumbs/cedo_prime_stock.0c958533f82b78967afb8394ec7c9af9.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_stock_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "682dfb5735715d4f3e9c64f0",
+      "slug": "daikyu_prime_grip",
+      "gameRef": "/Lotus/Types/Recipes/Weapons/WeaponParts/PrimeDaikyuGrip",
+      "tags": [
+        "component",
+        "weapon",
+        "prime"
+      ],
+      "ducats": 100,
+      "i18n": {
+        "zh-hans": {
+          "name": "大久和弓 Prime 弓身",
+          "icon": "items/images/en/daikyu_prime_grip.56987b8ec6a151a7dc61a753674d018f.webp",
+          "thumb": "items/images/en/thumbs/daikyu_prime_grip.56987b8ec6a151a7dc61a753674d018f.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_grip_128x128.png"
+        },
+        "en": {
+          "name": "Daikyu Prime Grip",
+          "icon": "items/images/en/daikyu_prime_grip.56987b8ec6a151a7dc61a753674d018f.webp",
+          "thumb": "items/images/en/thumbs/daikyu_prime_grip.56987b8ec6a151a7dc61a753674d018f.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_grip_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "682dfb8835715d4f3e9c64f5",
+      "slug": "kompressa_prime_barrel",
+      "gameRef": "/Lotus/Types/Recipes/Weapons/WeaponParts/KompressaPrimeBarrel",
+      "tags": [
+        "component",
+        "weapon",
+        "prime"
+      ],
+      "ducats": 100,
+      "i18n": {
+        "zh-hans": {
+          "name": "卡帕压力枪 Prime 枪管",
+          "icon": "items/images/en/kompressa_prime_barrel.5a08eed489a41bc8482f21bdabea7637.webp",
+          "thumb": "items/images/en/thumbs/kompressa_prime_barrel.5a08eed489a41bc8482f21bdabea7637.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_barrel_128x128.png"
+        },
+        "en": {
+          "name": "Kompressa Prime Barrel",
+          "icon": "items/images/en/kompressa_prime_barrel.5a08eed489a41bc8482f21bdabea7637.webp",
+          "thumb": "items/images/en/thumbs/kompressa_prime_barrel.5a08eed489a41bc8482f21bdabea7637.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_barrel_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "68add07d731e63abe79a5d16",
+      "slug": "vadarya_prime_blueprint",
+      "gameRef": "/Lotus/Types/Recipes/Weapons/PrimeLightningGunBlueprint",
+      "tags": [
+        "weapon",
+        "primary",
+        "prime",
+        "blueprint"
+      ],
+      "ducats": 100,
+      "i18n": {
+        "en": {
+          "name": "Vadarya Prime Blueprint",
+          "icon": "items/unknown.png",
+          "thumb": "",
+          "subIcon": "sub_icons/blueprint_128x128.png"
+        },
+        "zh-hans": {
+          "name": "瓦德雅 Prime 蓝图",
+          "icon": "items/unknown.png",
+          "thumb": "",
+          "subIcon": "sub_icons/blueprint_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "68add0fa731e63abe79a5d1b",
+      "slug": "venato_prime_set",
+      "gameRef": "/Lotus/Weapons/Tenno/Melee/Scythe/PrimeVento/PrimeVentoScythe",
+      "tags": [
+        "weapon",
+        "prime",
+        "melee",
+        "set"
+      ],
+      "ducats": 160,
+      "i18n": {
+        "zh-hans": {
+          "name": "脉纹 Prime 一套",
+          "icon": "items/images/en/venato_prime_set.b920bae8db1aa3422664d86c0bed2bb2.webp",
+          "thumb": "items/images/en/thumbs/venato_prime_set.b920bae8db1aa3422664d86c0bed2bb2.128x128.webp"
+        },
+        "en": {
+          "name": "Venato Prime Set",
+          "icon": "items/images/en/venato_prime_set.b920bae8db1aa3422664d86c0bed2bb2.webp",
+          "thumb": "items/images/en/thumbs/venato_prime_set.b920bae8db1aa3422664d86c0bed2bb2.128x128.webp"
+        }
+      }
+    },
+    {
+      "id": "6939aa435d9ebda239125d27",
+      "slug": "gyre_prime_neuroptics_blueprint",
+      "gameRef": "/Lotus/Types/Recipes/WarframeRecipes/GyrePrimeHelmetBlueprint",
+      "tags": [
+        "warframe",
+        "prime",
+        "component",
+        "blueprint"
+      ],
+      "ducats": 100,
+      "i18n": {
+        "zh-hans": {
+          "name": "Gyre Prime 头部神经光元 蓝图",
+          "icon": "items/images/en/gyre_prime_neuroptics_blueprint.fd52e994eb0d81e21e28b7b7a98ad960.webp",
+          "thumb": "items/images/en/thumbs/gyre_prime_neuroptics_blueprint.fd52e994eb0d81e21e28b7b7a98ad960.128x128.webp",
+          "subIcon": "sub_icons/warframe/prime_helmet_128x128.png"
+        },
+        "en": {
+          "name": "Gyre Prime Neuroptics Blueprint",
+          "icon": "items/images/en/gyre_prime_neuroptics_blueprint.fd52e994eb0d81e21e28b7b7a98ad960.webp",
+          "thumb": "items/images/en/thumbs/gyre_prime_neuroptics_blueprint.fd52e994eb0d81e21e28b7b7a98ad960.128x128.webp",
+          "subIcon": "sub_icons/warframe/prime_helmet_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "6939aa8a5d9ebda239125d2c",
+      "slug": "alternox_prime_blueprint",
+      "gameRef": "/Lotus/Types/Recipes/Weapons/AlternoxPrimeBlueprint",
+      "tags": [
+        "primary",
+        "prime",
+        "weapon",
+        "blueprint"
+      ],
+      "ducats": 100,
+      "i18n": {
+        "en": {
+          "name": "Alternox Prime Blueprint",
+          "icon": "items/images/en/alternox_prime_blueprint.ca0e1c78e73fbc6edd38586b28ef82d1.webp",
+          "thumb": "items/images/en/thumbs/alternox_prime_blueprint.ca0e1c78e73fbc6edd38586b28ef82d1.128x128.webp",
+          "subIcon": "sub_icons/blueprint_128x128.png"
+        },
+        "zh-hans": {
+          "name": "电幻步枪 Prime 蓝图",
+          "icon": "items/images/en/alternox_prime_blueprint.ca0e1c78e73fbc6edd38586b28ef82d1.webp",
+          "thumb": "items/images/en/thumbs/alternox_prime_blueprint.ca0e1c78e73fbc6edd38586b28ef82d1.128x128.webp",
+          "subIcon": "sub_icons/blueprint_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "6939aac95d9ebda239125d33",
+      "slug": "kestrel_prime_grip",
+      "gameRef": "/Lotus/Types/Recipes/Weapons/WeaponParts/KestrelPrimeGrip",
+      "tags": [
+        "weapon",
+        "prime",
+        "component"
+      ],
+      "ducats": 100,
+      "i18n": {
+        "zh-hans": {
+          "name": "红隼 Prime 握把",
+          "icon": "items/images/en/kestrel_prime_grip.4d27b989c37deb1e2a0ec4499e69c874.webp",
+          "thumb": "items/images/en/thumbs/kestrel_prime_grip.4d27b989c37deb1e2a0ec4499e69c874.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_grip_128x128.png"
+        },
+        "en": {
+          "name": "Kestrel Prime Grip",
+          "icon": "items/images/en/kestrel_prime_grip.4d27b989c37deb1e2a0ec4499e69c874.webp",
+          "thumb": "items/images/en/thumbs/kestrel_prime_grip.4d27b989c37deb1e2a0ec4499e69c874.128x128.webp",
+          "subIcon": "sub_icons/weapon/prime_grip_128x128.png"
+        }
+      }
+    },
+    {
+      "id": "69d67675b3984cc97e241750",
+      "slug": "voruna_prime_systems_blueprint",
+      "gameRef": "/Lotus/Types/Recipes/WarframeRecipes/VorunaPrimeSystemsBlueprint",
+      "tags": [
+        "component",
+        "warframe",
+        "prime",
+        "blueprint"
+      ],
+      "ducats": 100,
+      "i18n": {
+        "zh-hans": {
+          "name": "Voruna Prime 系统 蓝图",
+          "icon": "items/images/en/voruna_prime_systems_blueprint.6a82ab2971991cfa9ff8b92df7ed8547.webp",
+          "thumb": "items/images/en/thumbs/voruna_prime_systems_blueprint.6a82ab2971991cfa9ff8b92df7ed8547.128x128.webp",
+          "subIcon": "sub_icons/warframe/prime_systems_128x128.png"
+        },
+        "en": {
+          "name": "Voruna Prime Systems Blueprint",
+          "icon": "items/images/en/voruna_prime_systems_blueprint.6a82ab2971991cfa9ff8b92df7ed8547.webp",
+          "thumb": "items/images/en/thumbs/voruna_prime_systems_blueprint.6a82ab2971991cfa9ff8b92df7ed8547.128x128.webp",
+          "subIcon": "sub_icons/warframe/prime_systems_128x128.png"
+        }
+      }
+    }
+  ],
+  "error": null
+}
