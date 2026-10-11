@@ -6,6 +6,9 @@ from functools import cache
 from pathlib import Path
 from typing import Any
 
+from app.domain.item_group import ItemGroup
+from app.domain.market_item import ItemNames
+from app.ports.group_repository_port import GroupRepositoryPort
 from app.ports.market_client_port import MarketClientPort
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
@@ -33,6 +36,22 @@ def merged_raw_items() -> list[dict[str, Any]]:
     for raw in merged:
         raw["i18n"] |= hans_by_id.get(raw["id"], {}).get("i18n", {})
     return merged
+
+
+def make_group(group_id: str, *slugs: str) -> ItemGroup:
+    return ItemGroup(
+        id=group_id,
+        names=ItemNames(en=group_id.title(), zh_hant=f"{group_id} 繁"),
+        slugs=slugs,
+    )
+
+
+class StaticGroupRepository(GroupRepositoryPort):
+    def __init__(self, groups: list[ItemGroup]):
+        self.groups = groups
+
+    def list_groups(self) -> list[ItemGroup]:
+        return list(self.groups)
 
 
 class FakeMarketClient(MarketClientPort):

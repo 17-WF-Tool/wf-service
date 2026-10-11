@@ -4,12 +4,15 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from app.adapters.inbound.rest.dto import (
     APIResponse,
+    ItemGroupDTO,
     ItemPriceDTO,
+    MarketItemDTO,
     ToggleVisibilityRequest,
     UpdatePriceRequest,
     UserOrderDTO,
 )
 from app.domain.order import OrderType
+from app.ports.group_service_port import GroupServicePort
 from app.ports.item_service_port import ItemServicePort
 from app.ports.price_service_port import PriceServicePort
 
@@ -25,9 +28,14 @@ def get_price_service() -> PriceServicePort:
     raise NotImplementedError("Dependency not injected")
 
 
+def get_group_service() -> GroupServicePort:
+    raise NotImplementedError("Dependency not injected")
+
+
 # 使用 Annotated 定義型別別名，徹底消除 B008 警告
 ItemServiceDep = Annotated[ItemServicePort, Depends(get_item_service)]
 PriceServiceDep = Annotated[PriceServicePort, Depends(get_price_service)]
+GroupServiceDep = Annotated[GroupServicePort, Depends(get_group_service)]
 OrderTypeQuery = Annotated[
     OrderType | None,
     Query(alias="type", description="掛單類型 buy / sell，不給則回傳全部"),
@@ -145,6 +153,34 @@ async def get_item_price(
     return APIResponse(
         code=200, message="success", data=ItemPriceDTO.from_domain(price)
     )
+
+
+@router.get(
+    "/groups",
+    response_model=APIResponse[list[ItemGroupDTO]],
+    summary="取得物品分組清單（商人、集團等）",
+)
+async def list_groups(service: GroupServiceDep):
+    data = [ItemGroupDTO.from_domain(group) for group in service.list_groups()]
+    return APIResponse(code=200, message="success", data=data)
+
+
+@router.get(
+    "/groups/{group_id}/items",
+    response_model=APIResponse[list[MarketItemDTO]],
+    summary="取得分組內的物品",
+    description="只回傳存在於官方物品目錄中的物品。",
+)
+async def get_group_items(group_id: str, service: GroupServiceDep):
+    try:
+        items = service.get_group_items(group_id)
+    except KeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e).strip("'\""),
+        ) from e
+    data = [MarketItemDTO.from_domain(item) for item in items]
+    return APIResponse(code=200, message="success", data=data)
 
 
 @router.patch(

@@ -5,11 +5,17 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.adapters.inbound.rest.router import get_item_service, get_price_service
+from app.adapters.inbound.rest.router import (
+    get_group_service,
+    get_item_service,
+    get_price_service,
+)
 from app.adapters.inbound.rest.router import router as market_router
 from app.adapters.outbound.in_memory_repo import InMemoryItemRepository
+from app.adapters.outbound.json_group_repository import JsonGroupRepository
 from app.adapters.outbound.wf_market_client import WarframeMarketClient
 from app.application.catalog_service import CatalogService
+from app.application.group_service import GroupService
 from app.application.item_service import ItemService
 from app.application.price_service import PriceService
 from app.config import settings
@@ -22,8 +28,9 @@ logging.basicConfig(
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    # 啟動時預熱物品目錄並開始定期檢查版本，關閉時停止
+    # 啟動時預熱物品目錄、檢查分組 slug 並開始定期檢查版本，關閉時停止
     await catalog_service.warm_up()
+    group_service.find_unknown_slugs()
     catalog_service.start_periodic_refresh()
     yield
     await catalog_service.stop_periodic_refresh()
@@ -64,10 +71,14 @@ item_service = ItemService(
     default_username=settings.DEFAULT_WF_USERNAME,
 )
 price_service = PriceService(market_client, cache_ttl=settings.PRICE_CACHE_TTL)
+group_service = GroupService(
+    JsonGroupRepository(settings.GROUPS_FILE), catalog=catalog_service
+)
 
 # 注入到 FastAPI 路由
 app.dependency_overrides[get_item_service] = lambda: item_service
 app.dependency_overrides[get_price_service] = lambda: price_service
+app.dependency_overrides[get_group_service] = lambda: group_service
 
 # 掛載路由
 app.include_router(market_router)

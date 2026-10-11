@@ -3,6 +3,7 @@ from typing import Generic, TypeVar
 
 from pydantic import BaseModel, Field
 
+from app.domain.item_group import ItemGroup
 from app.domain.item_price import ItemPrice, PriceQuote
 from app.domain.market_item import ItemNames, MarketItem
 from app.domain.order import OrderType
@@ -35,6 +36,40 @@ class ItemNamesDTO(BaseModel):
     @classmethod
     def from_domain(cls, names: ItemNames) -> "ItemNamesDTO":
         return cls(en=names.en, zh_hant=names.zh_hant, zh_hans=names.zh_hans)
+
+
+class MarketItemDTO(BaseModel):
+    id: str
+    slug: str
+    names: ItemNamesDTO
+    image: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    max_rank: int | None = None
+
+    @classmethod
+    def from_domain(cls, item: MarketItem) -> "MarketItemDTO":
+        return cls(
+            id=item.id,
+            slug=item.slug,
+            names=ItemNamesDTO.from_domain(item.names),
+            image=item.image,
+            tags=list(item.tags),
+            max_rank=item.max_rank,
+        )
+
+
+class ItemGroupDTO(BaseModel):
+    id: str
+    names: ItemNamesDTO
+    item_count: int
+
+    @classmethod
+    def from_domain(cls, group: ItemGroup) -> "ItemGroupDTO":
+        return cls(
+            id=group.id,
+            names=ItemNamesDTO.from_domain(group.names),
+            item_count=len(group.slugs),
+        )
 
 
 class OrderItemDTO(BaseModel):
