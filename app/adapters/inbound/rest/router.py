@@ -4,12 +4,14 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from app.adapters.inbound.rest.dto import (
     APIResponse,
+    ItemPriceDTO,
     ToggleVisibilityRequest,
     UpdatePriceRequest,
     UserOrderDTO,
 )
 from app.domain.order import OrderType
 from app.ports.item_service_port import ItemServicePort
+from app.ports.price_service_port import PriceServicePort
 
 router = APIRouter(prefix="/api/v1/market", tags=["Market"])
 
@@ -19,8 +21,13 @@ def get_item_service() -> ItemServicePort:
     raise NotImplementedError("Dependency not injected")
 
 
+def get_price_service() -> PriceServicePort:
+    raise NotImplementedError("Dependency not injected")
+
+
 # 使用 Annotated 定義型別別名，徹底消除 B008 警告
 ItemServiceDep = Annotated[ItemServicePort, Depends(get_item_service)]
+PriceServiceDep = Annotated[PriceServicePort, Depends(get_price_service)]
 OrderTypeQuery = Annotated[
     OrderType | None,
     Query(alias="type", description="掛單類型 buy / sell，不給則回傳全部"),
@@ -109,6 +116,35 @@ async def _list_user_orders(
         ) from e
     data = [UserOrderDTO.from_domain(listing) for listing in listings]
     return APIResponse(code=200, message="success", data=data)
+
+
+@router.get(
+    "/items/{slug}/price",
+    response_model=APIResponse[ItemPriceDTO],
+    summary="查詢物品市價（最低賣價與最高收購價）",
+    description="取自線上使用者的掛單，結果快取 5 分鐘。"
+    "Mod 等可升級物品請帶 rank，否則賣價與收購價可能是不同等級。",
+)
+async def get_item_price(
+    slug: str,
+    service: PriceServiceDep,
+    rank: Annotated[int | None, Query(ge=0, description="Mod 等級")] = None,
+):
+    try:
+        price = await service.get_item_price(slug, rank)
+    except KeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e).strip("'\""),
+        ) from e
+    except (RuntimeError, OSError) as e:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"第三方服務通訊異常: {e!s}",
+        ) from e
+    return APIResponse(
+        code=200, message="success", data=ItemPriceDTO.from_domain(price)
+    )
 
 
 @router.patch(

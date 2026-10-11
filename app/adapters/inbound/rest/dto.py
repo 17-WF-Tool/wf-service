@@ -3,6 +3,7 @@ from typing import Generic, TypeVar
 
 from pydantic import BaseModel, Field
 
+from app.domain.item_price import ItemPrice, PriceQuote
 from app.domain.market_item import ItemNames, MarketItem
 from app.domain.order import OrderType
 from app.domain.order_listing import OrderListing
@@ -86,6 +87,37 @@ class UserOrderDTO(BaseModel):
             created_at=order.created_at,
             updated_at=order.updated_at,
             item=OrderItemDTO.from_domain(order.item_id, listing.item),
+        )
+
+
+class PriceQuoteDTO(BaseModel):
+    platinum: int
+    rank: int | None = None
+
+    @classmethod
+    def from_domain(cls, quote: PriceQuote | None) -> "PriceQuoteDTO | None":
+        if quote is None:
+            return None
+        return cls(platinum=quote.platinum, rank=quote.rank)
+
+
+class ItemPriceDTO(BaseModel):
+    """物品市價；沒有線上賣單或收購單時對應欄位為 null"""
+
+    slug: str
+    rank: int | None = None
+    lowest_sell: PriceQuoteDTO | None = None
+    highest_buy: PriceQuoteDTO | None = None
+    updated_at: datetime
+
+    @classmethod
+    def from_domain(cls, price: ItemPrice) -> "ItemPriceDTO":
+        return cls(
+            slug=price.slug,
+            rank=price.rank,
+            lowest_sell=PriceQuoteDTO.from_domain(price.lowest_sell),
+            highest_buy=PriceQuoteDTO.from_domain(price.highest_buy),
+            updated_at=price.updated_at,
         )
 
 
