@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass(frozen=True)
@@ -20,6 +21,11 @@ class Settings:
 
     # 市價快取時間（秒）
     PRICE_CACHE_TTL: float = 300
+
+    # 物品分組資料檔
+    GROUPS_FILE: str = str(
+        Path(__file__).resolve().parent.parent / "data" / "groups.json"
+    )
 
     # 預設查詢的使用者名稱（若前端呼叫沒帶參數時使用）
     DEFAULT_WF_USERNAME: str = ""
