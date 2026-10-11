@@ -1,0 +1,130 @@
+{
+  "apiVersion": "0.25.0",
+  "data": {
+    "sell": [
+      {
+        "id": "6abef5429703a8846cb0dc25",
+        "type": "sell",
+        "platinum": 45,
+        "quantity": 10,
+        "perTrade": 1,
+        "rank": 0,
+        "visible": true,
+        "createdAt": "2026-10-02T00:05:22Z",
+        "updatedAt": "2026-10-02T00:05:22Z",
+        "itemId": "54c6855ee779891362942572",
+        "user": {
+          "id": "615d20b0118b1702a2eec714",
+          "ingameName": "MALO1025",
+          "slug": "malo1025",
+          "platform": "pc",
+          "crossplay": true,
+          "status": "online"
+        }
+      },
+      {
+        "id": "6a80d5a890780835bc50f20c",
+        "type": "sell",
+        "platinum": 45,
+        "quantity": 1,
+        "perTrade": 1,
+        "rank": 0,
+        "visible": true,
+        "createdAt": "2026-08-15T21:10:00Z",
+        "updatedAt": "2026-10-11T12:48:31Z",
+        "itemId": "54c6855ee779891362942572",
+        "user": {
+          "id": "6a3b09a599b97900853aad2d",
+          "ingameName": "RNG_p1s.-_-",
+          "slug": "rng_p1s",
+          "platform": "mobile",
+          "crossplay": true,
+          "status": "ingame"
+        }
+      },
+      {
+        "id": "6a7f3e099703a8846c683024",
+        "type": "sell",
+        "platinum": 45,
+        "quantity": 1,
+        "perTrade": 1,
+        "rank": 0,
+        "visible": true,
+        "createdAt": "2026-08-14T16:10:49Z",
+        "updatedAt": "2026-10-11T12:57:41Z",
+        "itemId": "54c6855ee779891362942572",
+        "user": {
+          "id": "664db814b12b74161b16160d",
+          "ingameName": "hazz_gg",
+          "slug": "hazz-gg",
+          "platform": "pc",
+          "crossplay": true,
+          "status": "ingame"
+        }
+      }
+    ],
+    "buy": [
+      {
+        "id": "6acb86db90780835bcabf2f3",
+        "type": "buy",
+        "platinum": 71,
+        "quantity": 1,
+        "perTrade": 1,
+        "rank": 10,
+        "visible": true,
+        "createdAt": "2026-10-11T12:53:47Z",
+        "updatedAt": "2026-10-11T13:07:31Z",
+        "itemId": "54c6855ee779891362942572",
+        "user": {
+          "id": "65861c570549dc2d79ca6328",
+          "ingameName": "--SK--Blacknt",
+          "slug": "sk-blacknt",
+          "platform": "pc",
+          "crossplay": true,
+          "status": "ingame"
+        }
+      },
+      {
+        "id": "6acb407990780835bcab9e93",
+        "type": "buy",
+        "platinum": 71,
+        "quantity": 1,
+        "perTrade": 1,
+        "rank": 10,
+        "visible": true,
+        "createdAt": "2026-10-11T07:53:29Z",
+        "updatedAt": "2026-10-11T07:53:29Z",
+        "itemId": "54c6855ee779891362942572",
+        "user": {
+          "id": "6ac9ed0098a88d00776c4039",
+          "ingameName": "BeefLickr",
+          "slug": "beeflickr",
+          "platform": "pc",
+          "crossplay": true,
+          "status": "ingame"
+        }
+      },
+      {
+        "id": "68df97e774e7a24dde0d2964",
+        "type": "buy",
+        "platinum": 66,
+        "quantity": 1,
+        "perTrade": 1,
+        "rank": 10,
+        "visible": true,
+        "createdAt": "2025-10-03T09:31:19Z",
+        "updatedAt": "2026-08-21T14:31:25Z",
+        "itemId": "54c6855ee779891362942572",
+        "user": {
+          "id": "67b35eccba0465002ad8ab73",
+          "ingameName": "KOREANAIR",
+          "slug": "koreanair-2857",
+          "platform": "pc",
+          "crossplay": true,
+          "status": "ingame"
+        }
+      }
+    ]
+  },
+  "error": null
+}

@@ -1,0 +1,194 @@
+{
+  "apiVersion": "0.25.0",
+  "data": [
+    {
+      "id": "6aafcdf39703a8846c9f576a",
+      "type": "buy",
+      "platinum": 5,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-20T12:13:39Z",
+      "updatedAt": "2026-09-24T19:03:35Z",
+      "itemId": "69d67675b3984cc97e241750"
+    },
+    {
+      "id": "6aafce1390780835bc8a30e7",
+      "type": "buy",
+      "platinum": 5,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-20T12:14:11Z",
+      "updatedAt": "2026-09-24T19:03:45Z",
+      "itemId": "682dfb8835715d4f3e9c64f5"
+    },
+    {
+      "id": "6ab1421c90780835bc8ba3cc",
+      "type": "buy",
+      "platinum": 5,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-21T14:41:32Z",
+      "updatedAt": "2026-09-24T19:03:49Z",
+      "itemId": "6939aa8a5d9ebda239125d2c"
+    },
+    {
+      "id": "6ab1425e9703a8846ca0993a",
+      "type": "buy",
+      "platinum": 5,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-21T14:42:38Z",
+      "updatedAt": "2026-09-24T19:04:08Z",
+      "itemId": "68add07d731e63abe79a5d16"
+    },
+    {
+      "id": "6ab1427390780835bc8ba443",
+      "type": "buy",
+      "platinum": 6,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-21T14:42:59Z",
+      "updatedAt": "2026-09-21T14:43:15Z",
+      "itemId": "56783f24cbfa8f0432dd89a9"
+    },
+    {
+      "id": "6ab142aa9703a8846ca0997e",
+      "type": "buy",
+      "platinum": 5,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-21T14:43:54Z",
+      "updatedAt": "2026-09-24T19:04:31Z",
+      "itemId": "6939aac95d9ebda239125d33"
+    },
+    {
+      "id": "6ab142c690780835bc8ba4a4",
+      "type": "buy",
+      "platinum": 8,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-21T14:44:22Z",
+      "updatedAt": "2026-09-21T14:44:22Z",
+      "itemId": "68add0fa731e63abe79a5d1b"
+    },
+    {
+      "id": "6ab143079703a8846ca099d5",
+      "type": "buy",
+      "platinum": 5,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-21T14:45:27Z",
+      "updatedAt": "2026-09-24T19:04:48Z",
+      "itemId": "682dfb5735715d4f3e9c64f0"
+    },
+    {
+      "id": "6ab1434090780835bc8ba530",
+      "type": "buy",
+      "platinum": 5,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-21T14:46:24Z",
+      "updatedAt": "2026-09-24T19:04:56Z",
+      "itemId": "6939aa435d9ebda239125d27"
+    },
+    {
+      "id": "6ab144d490780835bc8ba6a6",
+      "type": "buy",
+      "platinum": 5,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-21T14:53:08Z",
+      "updatedAt": "2026-09-24T19:05:07Z",
+      "itemId": "673516e0db3ac2cfade14a7f"
+    },
+    {
+      "id": "6ab7dabc90780835bc93d565",
+      "type": "buy",
+      "platinum": 1,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-09-26T14:46:20Z",
+      "updatedAt": "2026-09-26T14:46:20Z",
+      "itemId": "54a73e65e779893a797fff36"
+    },
+    {
+      "id": "6ab97d1c9703a8846caa5089",
+      "type": "buy",
+      "platinum": 7,
+      "quantity": 1,
+      "perTrade": 1,
+      "rank": 0,
+      "visible": true,
+      "createdAt": "2026-09-27T20:31:24Z",
+      "updatedAt": "2026-09-27T20:31:24Z",
+      "itemId": "65315a50a06afa0dcbe93e6e"
+    },
+    {
+      "id": "6ac119689703a8846cb38a47",
+      "type": "buy",
+      "platinum": 6,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-10-03T15:04:08Z",
+      "updatedAt": "2026-10-03T15:04:08Z",
+      "itemId": "58b57068eb26db5c3119210a"
+    },
+    {
+      "id": "6ac17f7c9703a8846cb40d9b",
+      "type": "buy",
+      "platinum": 3,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-10-03T22:19:40Z",
+      "updatedAt": "2026-10-03T22:19:40Z",
+      "itemId": "633e2e6cf570d10793afb824"
+    },
+    {
+      "id": "6ac18ac890780835bca10012",
+      "type": "buy",
+      "platinum": 2,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-10-03T23:07:52Z",
+      "updatedAt": "2026-10-03T23:07:52Z",
+      "itemId": "67acd8fd125398d92c8bb4e3"
+    },
+    {
+      "id": "6ac6728190780835bca6747a",
+      "type": "buy",
+      "platinum": 5,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-10-07T16:25:37Z",
+      "updatedAt": "2026-10-07T16:25:37Z",
+      "itemId": "673516c7db3ac2cfade14a78"
+    },
+    {
+      "id": "6aca16c190780835bcaa265f",
+      "type": "buy",
+      "platinum": 7,
+      "quantity": 1,
+      "perTrade": 1,
+      "visible": true,
+      "createdAt": "2026-10-10T10:43:13Z",
+      "updatedAt": "2026-10-10T10:43:13Z",
+      "itemId": "66325cb5e85cac3856c86cc2"
+    }
+  ],
+  "error": null
+}

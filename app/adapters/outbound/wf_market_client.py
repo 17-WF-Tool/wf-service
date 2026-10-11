@@ -29,14 +29,14 @@ class WarframeMarketClient(MarketClientPort):
     async def fetch_user_orders(self, username: str) -> list[dict[str, Any]]:
         clean_username = username.strip()
         try:
-            return await self._get(f"/orders/user/{quote(clean_username)}")
+            return await self._get(f"/orders/user/{_encode(clean_username)}")
         except KeyError as e:
             raise KeyError(f"找不到 Warframe.market 使用者: {clean_username}") from e
 
     async def fetch_top_orders(self, slug: str) -> dict[str, list[dict[str, Any]]]:
         clean_slug = slug.strip()
         try:
-            data = await self._get(f"/orders/item/{quote(clean_slug)}/top")
+            data = await self._get(f"/orders/item/{_encode(clean_slug)}/top")
         except KeyError as e:
             raise KeyError(f"找不到 Warframe.market 物品: {clean_slug}") from e
         return {"sell": data.get("sell", []), "buy": data.get("buy", [])}
@@ -73,3 +73,8 @@ class WarframeMarketClient(MarketClientPort):
         if payload.get("error"):
             raise RuntimeError(f"Market API 回傳錯誤: {payload['error']}")
         return payload.get("data")
+
+
+def _encode(segment: str) -> str:
+    """將路徑片段完整編碼，包含 /，避免使用者輸入改變請求路徑"""
+    return quote(segment, safe="")

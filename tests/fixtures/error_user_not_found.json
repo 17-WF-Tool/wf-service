@@ -1,0 +1,9 @@
+{
+  "apiVersion": "0.25.0",
+  "data": null,
+  "error": {
+    "request": [
+      "app.user.notFound"
+    ]
+  }
+}

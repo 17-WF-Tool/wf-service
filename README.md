@@ -50,3 +50,21 @@ python main.py
 
 - Swagger UI 介面：http://127.0.0.1:8000/docs
 - ReDoc 說明文件：http://127.0.0.1:8000/redoc
+
+### 5. 執行測試
+
+測試使用 `tests/fixtures/` 中錄製的官方回應，不需連網。
+
+```powershell
+# 執行全部測試
+pytest
+
+# 執行單一檔案或單一測試
+pytest tests/unit/test_wfm_mapper.py
+pytest tests/unit/test_wfm_mapper.py::TestToOrder::test_maps_fields
+
+# 官方回應格式變動時，重新錄製 fixtures
+python scripts/record_fixtures.py
+```
+
+`api.http` 收錄官方 API 與本專案 API 的請求範例，可搭配 VS Code 的 REST Client 擴充套件使用。

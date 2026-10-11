@@ -1,0 +1,61 @@
+# API 範例（VS Code REST Client 擴充套件，點選請求上方的 Send Request 執行）
+#
+# 官方 v2 API 的 header：
+#   language：i18n 除 en 外回傳的語言（zh-hant、zh-hans…）
+#   platform、crossplay：影響掛單範圍
+
+@wfm = https://api.warframe.market/v2
+@local = http://127.0.0.1:8000
+@username = rrrrrrrrrrrrrrrrr_17
+@slug = primed_continuity
+
+
+### ===== 官方 v2 API =====
+
+### 各資料集版本號（collections.items 用於判斷物品目錄是否更新）
+GET {{wfm}}/versions
+
+
+### 完整物品目錄（約 3,900 筆，i18n 含 en 與繁中）
+GET {{wfm}}/items
+language: zh-hant
+
+
+### 完整物品目錄（i18n 含 en 與簡中）
+GET {{wfm}}/items
+language: zh-hans
+
+
+### 單一物品詳情（比目錄多 rarity、tradingTax、description）
+GET {{wfm}}/item/{{slug}}
+language: zh-hant
+
+
+### 使用者公開掛單（只有 itemId，需對照物品目錄取得名稱）
+GET {{wfm}}/orders/user/{{username}}
+platform: pc
+crossplay: true
+
+
+### 物品最低賣單與最高買單
+GET {{wfm}}/orders/item/{{slug}}/top
+platform: pc
+crossplay: true
+
+
+### 需要登入（未帶憑證回 401）
+GET {{wfm}}/me
+
+
+### ===== 本專案後端（先執行 python main.py）=====
+
+### 健康檢查
+GET {{local}}/
+
+
+### 查詢使用者公開掛單
+GET {{local}}/api/v1/market/me/orders?username={{username}}
+
+
+### 查詢不存在的使用者（預期 404）
+GET {{local}}/api/v1/market/me/orders?username=no_such_user_xyz_123

@@ -92,7 +92,32 @@ jobs:
           ruff format --check .
 
   # -------------------------------------------------------------
-  # 4. 程式碼靜態安全分析 (SAST via CodeQL)
+  # 4. 單元與 API 測試 (Pytest)
+  # -------------------------------------------------------------
+  tests:
+    name: Unit & API Tests (Pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Run Pytest
+        run: |
+          pytest
+
+  # -------------------------------------------------------------
+  # 5. 程式碼靜態安全分析 (SAST via CodeQL)
   # -------------------------------------------------------------
   codeql-sast:
     name: Static Code Analysis (SAST)
@@ -110,12 +135,12 @@ jobs:
         uses: github/codeql-action/analyze@v3
 
   # -------------------------------------------------------------
-  # 5. 最小可執行編譯與載入驗證 (Build & Import Smoke Test)
+  # 6. 最小可執行編譯與載入驗證 (Build & Import Smoke Test)
   # -------------------------------------------------------------
   build-and-verify:
     name: Build & Smoke Verification
     runs-on: ubuntu-latest
-    needs: [code-style, dependency-audit]
+    needs: [code-style, dependency-audit, tests]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
