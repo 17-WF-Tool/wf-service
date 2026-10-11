@@ -104,6 +104,44 @@ class TestRequest:
 
         assert session.requests[0]["url"] == f"{BASE_URL}{expected_path}"
 
+    async def test_top_orders_without_rank_has_no_query(self, respond, client):
+        session = respond(200, load_fixture("top_orders_primed_continuity.json"))
+
+        await client.fetch_top_orders("primed_continuity")
+
+        assert session.requests[0]["url"] == (
+            f"{BASE_URL}/orders/item/primed_continuity/top"
+        )
+
+    @pytest.mark.parametrize("rank", [0, 10])
+    async def test_top_orders_passes_rank(self, respond, client, rank):
+        session = respond(200, load_fixture("top_orders_primed_continuity.json"))
+
+        await client.fetch_top_orders("primed_continuity", rank=rank)
+
+        assert session.requests[0]["url"] == (
+            f"{BASE_URL}/orders/item/primed_continuity/top?rank={rank}"
+        )
+
+    async def test_every_request_waits_for_rate_limiter(self, respond, client):
+        respond(200, load_fixture("versions.json"))
+        waits = []
+
+        class RecordingLimiter:
+            async def wait(self):
+                waits.append(True)
+
+        client._rate_limiter = RecordingLimiter()
+        await client.fetch_versions()
+        await client.fetch_versions()
+
+        assert len(waits) == 2
+
+    def test_rate_limiter_uses_given_interval(self):
+        client = WarframeMarketClient(base_url=BASE_URL, min_request_interval=0.5)
+
+        assert client._rate_limiter.min_interval == 0.5
+
 
 class TestResponse:
     async def test_returns_data_without_envelope(self, respond, client):
