@@ -53,9 +53,17 @@ GET {{wfm}}/me
 GET {{local}}/
 
 
-### 查詢使用者公開掛單
+### 查詢使用者公開掛單（附物品資訊）
+GET {{local}}/api/v1/market/users/{{username}}/orders
+
+
+### 只查詢收購單（type 可為 buy / sell）
+GET {{local}}/api/v1/market/users/{{username}}/orders?type=buy
+
+
+### 查詢個人掛單（未帶 username 時使用 config 的 DEFAULT_WF_USERNAME）
 GET {{local}}/api/v1/market/me/orders?username={{username}}
 
 
 ### 查詢不存在的使用者（預期 404）
-GET {{local}}/api/v1/market/me/orders?username=no_such_user_xyz_123
+GET {{local}}/api/v1/market/users/no_such_user_xyz_123/orders
