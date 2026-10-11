@@ -49,6 +49,7 @@ class FakeMarketClient(MarketClientPort):
         user_orders: list[dict[str, Any]] | None = None,
         top_orders: dict[str, list[dict[str, Any]]] | None = None,
         versions: dict[str, Any] | None = None,
+        items: dict[str, list[dict[str, Any]]] | None = None,
         errors: dict[str, Exception] | None = None,
     ):
         self.user_orders = (
@@ -60,6 +61,8 @@ class FakeMarketClient(MarketClientPort):
             else load_data("top_orders_primed_continuity.json")
         )
         self.versions = versions if versions is not None else load_data("versions.json")
+        # 依語言覆寫物品目錄，未指定的語言讀取 fixtures
+        self.items = items or {}
         self.errors = errors or {}
         self.calls: list[tuple[str, tuple[Any, ...]]] = []
 
@@ -74,7 +77,16 @@ class FakeMarketClient(MarketClientPort):
 
     async def fetch_items(self, language: str = "zh-hant") -> list[dict[str, Any]]:
         self._record("fetch_items", language)
+        if language in self.items:
+            return copy.deepcopy(self.items[language])
         return load_data(f"items_{language}.json")
+
+    def call_count(self, method: str) -> int:
+        return sum(1 for name, _ in self.calls if name == method)
+
+    def set_items_version(self, version: str) -> None:
+        """模擬官方物品目錄更新"""
+        self.versions["collections"]["items"] = version
 
     async def fetch_user_orders(self, username: str) -> list[dict[str, Any]]:
         self._record("fetch_user_orders", username)

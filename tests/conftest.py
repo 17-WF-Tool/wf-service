@@ -1,8 +1,10 @@
 import pytest
 from fastapi.testclient import TestClient
 
+import main
 from app.adapters.inbound.rest.router import get_item_service
 from app.adapters.outbound.in_memory_repo import InMemoryItemRepository
+from app.application.catalog_service import CatalogService
 from app.application.item_service import ItemService
 from main import app
 from tests.support import FakeMarketClient
@@ -28,7 +30,15 @@ def make_service():
 
 
 @pytest.fixture
-def api_client():
+def app_catalog(monkeypatch) -> CatalogService:
+    """取代 main 的物品目錄，避免 API 測試啟動時連線官方"""
+    catalog = CatalogService(FakeMarketClient())
+    monkeypatch.setattr(main, "catalog_service", catalog)
+    return catalog
+
+
+@pytest.fixture
+def api_client(app_catalog):
     """建立 API 測試 client，以 use_service() 注入使用假 client 的 service"""
     original = app.dependency_overrides.get(get_item_service)
 
