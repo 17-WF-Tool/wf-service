@@ -7,16 +7,15 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.adapters.inbound.rest.router import (
     get_group_service,
-    get_item_service,
+    get_order_service,
     get_price_service,
 )
 from app.adapters.inbound.rest.router import router as market_router
-from app.adapters.outbound.in_memory_repo import InMemoryItemRepository
 from app.adapters.outbound.json_group_repository import JsonGroupRepository
 from app.adapters.outbound.wf_market_client import WarframeMarketClient
 from app.application.catalog_service import CatalogService
 from app.application.group_service import GroupService
-from app.application.item_service import ItemService
+from app.application.order_service import OrderService
 from app.application.price_service import PriceService
 from app.config import settings
 
@@ -54,7 +53,6 @@ app.add_middleware(
 )
 
 # 組裝依賴關係 (Composition Root)
-item_repo = InMemoryItemRepository()
 market_client = WarframeMarketClient(
     base_url=settings.WF_MARKET_API_URL,
     min_request_interval=settings.WF_MARKET_MIN_REQUEST_INTERVAL,
@@ -64,8 +62,7 @@ catalog_service = CatalogService(
     refresh_interval=settings.CATALOG_REFRESH_INTERVAL,
     miss_refresh_cooldown=settings.CATALOG_MISS_REFRESH_COOLDOWN,
 )
-item_service = ItemService(
-    repo=item_repo,
+order_service = OrderService(
     market_client=market_client,
     catalog=catalog_service,
     default_username=settings.DEFAULT_WF_USERNAME,
@@ -76,7 +73,7 @@ group_service = GroupService(
 )
 
 # 注入到 FastAPI 路由
-app.dependency_overrides[get_item_service] = lambda: item_service
+app.dependency_overrides[get_order_service] = lambda: order_service
 app.dependency_overrides[get_price_service] = lambda: price_service
 app.dependency_overrides[get_group_service] = lambda: group_service
 

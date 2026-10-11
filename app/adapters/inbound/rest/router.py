@@ -1,4 +1,4 @@
-from typing import Annotated, Any
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
@@ -7,20 +7,18 @@ from app.adapters.inbound.rest.dto import (
     ItemGroupDTO,
     ItemPriceDTO,
     MarketItemDTO,
-    ToggleVisibilityRequest,
-    UpdatePriceRequest,
     UserOrderDTO,
 )
 from app.domain.order import OrderType
 from app.ports.group_service_port import GroupServicePort
-from app.ports.item_service_port import ItemServicePort
+from app.ports.order_service_port import OrderServicePort
 from app.ports.price_service_port import PriceServicePort
 
 router = APIRouter(prefix="/api/v1/market", tags=["Market"])
 
 
 # 依賴注入提供者函數（main.py 會透過 dependency_overrides 覆蓋）
-def get_item_service() -> ItemServicePort:
+def get_order_service() -> OrderServicePort:
     raise NotImplementedError("Dependency not injected")
 
 
@@ -33,7 +31,7 @@ def get_group_service() -> GroupServicePort:
 
 
 # 使用 Annotated 定義型別別名，徹底消除 B008 警告
-ItemServiceDep = Annotated[ItemServicePort, Depends(get_item_service)]
+OrderServiceDep = Annotated[OrderServicePort, Depends(get_order_service)]
 PriceServiceDep = Annotated[PriceServicePort, Depends(get_price_service)]
 GroupServiceDep = Annotated[GroupServicePort, Depends(get_group_service)]
 OrderTypeQuery = Annotated[
@@ -43,38 +41,13 @@ OrderTypeQuery = Annotated[
 
 
 @router.get(
-    "/items",
-    response_model=APIResponse[list[dict[str, Any]]],
-    summary="取得特定分類的商品列表",
-)
-async def get_items(
-    service: ItemServiceDep,
-    category: str = "baro",
-):
-    items = await service.list_items_by_category(category)
-    data = [
-        {
-            "id": item.id,
-            "name_en": item.name_en,
-            "name_tc": item.name_tc,
-            "category": item.category,
-            "current_price": item.current_price,
-            "user_price": item.user_price,
-            "is_visible": item.is_visible,
-        }
-        for item in items
-    ]
-    return APIResponse(code=200, message="success", data=data)
-
-
-@router.get(
     "/users/{username}/orders",
     response_model=APIResponse[list[UserOrderDTO]],
     summary="查詢指定使用者的公開掛單列表",
 )
 async def get_user_orders(
     username: str,
-    service: ItemServiceDep,
+    service: OrderServiceDep,
     order_type: OrderTypeQuery = None,
 ):
     return await _list_user_orders(service, username, order_type)
@@ -88,7 +61,7 @@ async def get_user_orders(
     "登入功能完成後將改為查詢登入者本人。",
 )
 async def get_my_orders(
-    service: ItemServiceDep,
+    service: OrderServiceDep,
     username: str | None = None,
     order_type: OrderTypeQuery = None,
 ):
@@ -96,7 +69,7 @@ async def get_my_orders(
 
 
 async def _list_user_orders(
-    service: ItemServicePort,
+    service: OrderServicePort,
     username: str | None,
     order_type: OrderType | None,
 ) -> APIResponse[list[UserOrderDTO]]:
@@ -181,59 +154,3 @@ async def get_group_items(group_id: str, service: GroupServiceDep):
         ) from e
     data = [MarketItemDTO.from_domain(item) for item in items]
     return APIResponse(code=200, message="success", data=data)
-
-
-@router.patch(
-    "/items/{item_id}/price",
-    response_model=APIResponse[dict[str, Any]],
-    summary="更新特定商品自訂價格",
-)
-async def update_item_price(
-    item_id: str,
-    payload: UpdatePriceRequest,
-    service: ItemServiceDep,
-):
-    try:
-        updated = await service.update_item_price(item_id, payload.price)
-        data = {
-            "id": updated.id,
-            "name_en": updated.name_en,
-            "name_tc": updated.name_tc,
-            "category": updated.category,
-            "current_price": updated.current_price,
-            "user_price": updated.user_price,
-            "is_visible": updated.is_visible,
-        }
-        return APIResponse(code=200, message="價格更新成功", data=data)
-    except KeyError as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e)) from e
-    except ValueError as e:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
-        ) from e
-
-
-@router.patch(
-    "/items/{item_id}/visibility",
-    response_model=APIResponse[dict[str, Any]],
-    summary="切換特定商品上下架顯示狀態",
-)
-async def toggle_item_visibility(
-    item_id: str,
-    payload: ToggleVisibilityRequest,
-    service: ItemServiceDep,
-):
-    try:
-        updated = await service.toggle_item_visibility(item_id, payload.is_visible)
-        data = {
-            "id": updated.id,
-            "name_en": updated.name_en,
-            "name_tc": updated.name_tc,
-            "category": updated.category,
-            "current_price": updated.current_price,
-            "user_price": updated.user_price,
-            "is_visible": updated.is_visible,
-        }
-        return APIResponse(code=200, message="顯示狀態更新成功", data=data)
-    except KeyError as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e)) from e
