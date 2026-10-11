@@ -1,9 +1,16 @@
+import logging
 from typing import Any
 
+from app.application.catalog_service import CatalogService
+from app.application.wfm_mapper import to_order
 from app.domain.item import Item
+from app.domain.order import Order, OrderType
+from app.domain.order_listing import OrderListing
 from app.ports.item_repository_port import ItemRepositoryPort
 from app.ports.item_service_port import ItemServicePort
 from app.ports.market_client_port import MarketClientPort
+
+logger = logging.getLogger(__name__)
 
 
 class ItemService(ItemServicePort):
@@ -11,10 +18,12 @@ class ItemService(ItemServicePort):
         self,
         repo: ItemRepositoryPort,
         market_client: MarketClientPort,
+        catalog: CatalogService,
         default_username: str = "",
     ):
         self.repo = repo
         self.market_client = market_client
+        self.catalog = catalog
         self.default_username = default_username
 
     async def list_items_by_category(self, category: str) -> list[Item]:
@@ -36,42 +45,33 @@ class ItemService(ItemServicePort):
         await self.repo.save(item)
         return item
 
-    async def get_my_public_orders(
-        self, username: str | None = None
-    ) -> list[dict[str, Any]]:
+    async def get_user_orders(
+        self,
+        username: str | None = None,
+        order_type: OrderType | None = None,
+    ) -> list[OrderListing]:
         target_user = username or self.default_username
         if not target_user:
             raise ValueError("未指定使用者名稱，請於 config 設定或以參數傳入 username")
 
         raw_orders = await self.market_client.fetch_user_orders(target_user)
+        orders = [
+            order
+            for order in _to_orders(raw_orders)
+            if order_type is None or order.type == order_type
+        ]
+        return [
+            OrderListing(order=order, item=await self.catalog.resolve(order.item_id))
+            for order in orders
+        ]
 
-        formatted_orders = []
-        for order in raw_orders:
-            # 官方 v2 結構可能直接帶 itemId / item (含 en.name 或 urlName)
-            item_info = order.get("item", {})
 
-            name_en = (
-                item_info.get("en", {}).get("name")
-                or item_info.get("en", {}).get("item_name")
-                or order.get("item", {}).get("url_name", "")
-                or order.get("itemId", "")
-            )
-
-            # 將底線格式化為標準標題命名 (例如 "primed_continuity" -> "Primed Continuity")
-            if "_" in name_en:
-                name_en = name_en.replace("_", " ").title()
-
-            formatted_orders.append(
-                {
-                    "order_id": order.get("id", ""),
-                    "name_en": name_en or "Unknown Item",
-                    "platinum": order.get("platinum", 0),
-                    "quantity": order.get("quantity", 1),
-                    "order_type": order.get("type", "sell"),
-                    "is_visible": order.get("visible", True),
-                    "mod_rank": order.get("modRank")
-                    or order.get("mod_rank"),  # v2 常用駝峰命名
-                }
-            )
-
-        return formatted_orders
+def _to_orders(raws: list[dict[str, Any]]) -> list[Order]:
+    orders = []
+    for raw in raws:
+        try:
+            orders.append(to_order(raw))
+        except (KeyError, TypeError, ValueError) as e:
+            # 單筆格式異常不影響整份列表
+            logger.warning("略過無法轉換的掛單 %s: %r", raw.get("id"), e)
+    return orders
