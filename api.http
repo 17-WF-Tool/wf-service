@@ -67,3 +67,15 @@ GET {{local}}/api/v1/market/me/orders?username={{username}}
 
 ### 查詢不存在的使用者（預期 404）
 GET {{local}}/api/v1/market/users/no_such_user_xyz_123/orders
+
+
+### 查詢物品市價（最低賣價與最高收購價，快取 5 分鐘）
+GET {{local}}/api/v1/market/items/primed_continuity/price
+
+
+### 查詢指定 Mod 等級的市價
+GET {{local}}/api/v1/market/items/primed_continuity/price?rank=10
+
+
+### 查詢不存在的物品（預期 404）
+GET {{local}}/api/v1/market/items/no_such_item_x/price
