@@ -1,9 +1,12 @@
+import logging
 from datetime import datetime
 from typing import Any
 
 from app.config import settings
 from app.domain.market_item import ItemNames, MarketItem
 from app.domain.order import Order, OrderType
+
+logger = logging.getLogger(__name__)
 
 
 def to_market_item(
@@ -56,6 +59,17 @@ def to_order(raw: dict[str, Any]) -> Order:
         created_at=_parse_datetime(raw.get("createdAt")),
         updated_at=_parse_datetime(raw.get("updatedAt")),
     )
+
+
+def to_orders(raws: list[dict[str, Any]]) -> list[Order]:
+    """轉換多筆掛單，單筆格式異常時略過並記錄，不影響整份列表"""
+    orders = []
+    for raw in raws:
+        try:
+            orders.append(to_order(raw))
+        except (KeyError, TypeError, ValueError) as e:
+            logger.warning("略過無法轉換的掛單 %s: %r", raw.get("id"), e)
+    return orders
 
 
 def _asset_url(path: str | None, base_url: str) -> str | None:
